@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0rem;
+    background: linear-gradient(to bottom right, rgb(81, 81, 247), rgb(198, 225, 251), rgb(81, 81, 247));
+    background-attachment: fixed;
+    height: 100%;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.display {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 25rem;
+    text-align: right;
+    word-wrap: break-word;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(5, 5rem);
+    grid-template-rows: repeat(5, 3rem);
+}
+
+.keys, .span-2, .span-5 {
+    border-width: 0.01rem;
+    background-color: rgba(255,255,255, 0.75);
+    border-radius: 0.5rem;
+    font-size: 2rem;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.span-5 {
+    grid-column: span 5;
+}
+
+.keys:hover, .span-2:hover, .span-5:hover {
+    background-color: rgb(255,255,255);
+    cursor: pointer;
+}
