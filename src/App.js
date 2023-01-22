@@ -1,10 +1,10 @@
 import './App.css';
 import { useReducer } from 'react';
-import Display from './Display';
-import Keypad from './Keypad';
+import Display from './components/Display';
+import Keypad from './components/Keypad';
 
 const OPERATIONS = ['+', '-', '*', '/', '^'];
-const mp = new Map([['+', 0], ['-', 0], ['*', 1], ['/', 1], ['^', 2]]);
+const mp = new Map([['+', 0], ['-', 0], ['*', 1], ['/', 1], ['^', 2], ['(', -1]]);
 
 const reducer = (terms, action) => {
   var currentTerm;
@@ -20,9 +20,13 @@ const reducer = (terms, action) => {
       if(action.payload.value === '.' && currentTerm.includes(".")){
         return terms;
       }
-      if (OPERATIONS.includes(currentTerm)) {
+      if(currentTerm === ')'){
+        return terms;
+      }
+      if (OPERATIONS.includes(currentTerm) || currentTerm === '(') {
         return [...terms, action.payload.value];
       }
+
       return terms.map((v, i) => i === terms.length - 1 ? v += action.payload.value : v)
 
     case 'add-operation':
@@ -32,6 +36,27 @@ const reducer = (terms, action) => {
       currentTerm = terms[terms.length - 1];
       if (OPERATIONS.includes(currentTerm)) {
         return terms.map((v, i) => i === terms.length - 1 ? v = action.payload.value : v)
+      }
+      return [...terms, action.payload.value];
+
+    case 'add-paranthesis':
+      if(action.payload.value === ')') {
+        if(terms.length === 0) {
+          return terms;
+        }
+        currentTerm = terms[terms.length - 1];
+        if(currentTerm === '(') {
+          return terms;
+        }
+      }
+      if(action.payload.value === '(') {
+        if(terms.length === 0) {
+          return [...terms, action.payload.value];
+        }
+        currentTerm = terms[terms.length - 1];
+        if(!OPERATIONS.includes(currentTerm)) {
+          return terms;
+        }
       }
       return [...terms, action.payload.value];
 
@@ -81,7 +106,7 @@ const calculateResult = (terms) => {
   
   var exp = [];
   for(let i = 0; i<terms.length; i++) {
-    if(OPERATIONS.includes(terms[i])) {
+    if(OPERATIONS.includes(terms[i]) || terms[i] === '(' || terms[i] === ')') {
       exp.push(terms[i]);
     }
     else{
@@ -101,16 +126,16 @@ const calculateResult = (terms) => {
       }
       ops.push(t);
     }
-    // else if(t === '(') {
-    //   ops.push(t);
-    // }
-    // else if (t === ')') {
-    //   while (ops[ops.length-1] !== '(') {
-    //     postfix.push(ops[ops.length-1]);
-    //     ops.pop();
-    //   }
-    //   ops.pop();
-    // }
+    else if(t === '(') {
+      ops.push(t);
+    }
+    else if (t === ')') {
+      while (ops[ops.length-1] !== '(') {
+        postfix.push(ops[ops.length-1]);
+        ops.pop();
+      }
+      ops.pop();
+    }
     else {
       postfix.push(t);
     }
@@ -150,7 +175,7 @@ const App = () => {
 
   return (
     <div className='app'>
-      <h1>Calculator</h1>
+      <h1>Calculator App</h1>
       <Display terms={terms}/>
       <Keypad changeExpression={changeExpression}/>
     </div>

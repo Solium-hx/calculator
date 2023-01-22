@@ -22,12 +22,14 @@ const Keypad = ({ changeExpression }) => {
       <Key className={'keys'} value={9} onClick={() => {handleClick({type: 'add-digit', value: '9'})}} />
       <Key className={'keys'} value={'/'} onClick={() => {handleClick({type: 'add-operation', value: '/'})}} />
       <Key className={'keys'} value={'*'} onClick={() => {handleClick({type: 'add-operation', value: '*'})}} />
-      <Key className={'keys'} value={'^'} onClick={() => {handleClick({type: 'add-operation', value: '^'})}} />
+      <Key className={'keys'} value={'('} onClick={() => {handleClick({type: 'add-paranthesis', value: '('})}} />
       <Key className={'keys'} value={0} onClick={() => {handleClick({type: 'add-digit', value: '0'})}} />
-      <Key className={'keys'} value={'.'} onClick={() => {handleClick({type: 'add-digit', value: '.'})}} />
+      <Key className={'keys'} value={')'} onClick={() => {handleClick({type: 'add-paranthesis', value: ')'})}} />
       <Key className={'keys'} value={'+'} onClick={() => {handleClick({type: 'add-operation', value: '+'})}} />
       <Key className={'keys'} value={'-'} onClick={() => {handleClick({type: 'add-operation', value: '-'})}} />
-      <Key className={'span-5'} value={'='} onClick={() => {handleClick({type: 'evaluate', value: '='})}} />
+      <Key className={'span-3'} value={'='} onClick={() => {handleClick({type: 'evaluate', value: '='})}} />
+      <Key className={'keys'} value={'.'} onClick={() => {handleClick({type: 'add-digit', value: '.'})}} />
+      <Key className={'keys'} value={'^'} onClick={() => {handleClick({type: 'add-operation', value: '^'})}} />
     </div>
   )
 }
